@@ -8,6 +8,7 @@ fi
 clear
 GREEN='\033[0;32m'
 NONE='\033[0m'
+RED='\033[0;31m'
 
 # -----------------------------------------------------
 # functions
@@ -211,6 +212,21 @@ if gum confirm "Do you need development setup?" ;then
   sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat --noconfirm
   sudo systemctl enable libvirtd
   sudo usermod -aG libvirt $USER
+  if [[ $(egrep -c '(vmx|svm)' /proc/cpuinfo) -eq 0 ]]; then
+    echo -e "${RED}Virtualization not supported or not enabled in BIOS/UEFI.${NONE}"
+    echo "➡️ Please enable VT-x/AMD-V in your BIOS settings."
+  fi
+  # Load KVM modules based on CPU vendor
+  CPU_VENDOR=$(lscpu | grep -i vendor | awk '{print $3}')
+
+  echo "Loading KVM module for $CPU_VENDOR CPU..."
+  if [[ "$CPU_VENDOR" == "GenuineIntel" ]]; then
+    sudo modprobe kvm-intel
+  elif [[ "$CPU_VENDOR" == "AuthenticAMD" ]]; then
+    sudo modprobe kvm-amd
+  else
+    echo "Unknown CPU vendor: $CPU_VENDOR — skipping KVM module load."
+  fi
 fi
 
 # -----------------------------------------------------
