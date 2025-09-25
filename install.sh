@@ -170,9 +170,6 @@ if gum confirm "Do you need development setup?" ;then
   echo -e "${NONE}"
   sudo pacman -Sy python-pip --noconfirm
 
-  # jetbrains
-  yay -S jetbrains-toolbox --noconfirm
-
   # node
   echo -e "${GREEN}"
   figlet "Node"
@@ -220,7 +217,7 @@ echo -e "${GREEN}"
 figlet "GUI Apps"
 echo -e "${NONE}"
 sudo pacman -Sy okular feh gwenview mpv qbittorrent bitwarden qalculate-gtk veracrypt --noconfirm
-yay -S onlyoffice-bin brave-bin librewolf-bin zen-browser-bin ventoy-bin webcord --noconfirm
+yay -S onlyoffice-bin zen-browser-bin ventoy-bin --noconfirm
 
 # set default browser
 unset BROWSER
