@@ -206,6 +206,11 @@ if gum confirm "Do you need development setup?" ;then
   git clone https://github.com/NvChad/starter ~/.config/nvchad
   git clone --depth 1 https://github.com/AstroNvim/template ~/.config/astronvim
   git clone https://github.com/LazyVim/starter ~/.config/lazyvim
+
+  # qemu
+  sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat --noconfirm
+  sudo systemctl enable libvirtd
+  sudo usermod -aG libvirt $USER
 fi
 
 # -----------------------------------------------------
